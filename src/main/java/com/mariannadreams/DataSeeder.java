@@ -32,7 +32,7 @@ public class DataSeeder implements CommandLineRunner {
 
     private static final String ALBUM_SPOTIFY = "https://open.spotify.com/album/0BB8BawGzPa6yNdyf9vGBb";
     private static final String GENRE = "Roots · Folk · Country · Indie";
-    private static final int YEAR = 2024;
+    private static final int YEAR = 2026;
 
     @Override
     public void run(String... args) {
