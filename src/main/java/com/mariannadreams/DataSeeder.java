@@ -6,6 +6,7 @@ import com.mariannadreams.model.Song;
 import com.mariannadreams.model.SiteContent;
 import com.mariannadreams.repository.LyricRepository;
 import com.mariannadreams.repository.SongRepository;
+import com.mariannadreams.service.ArtistProfileService;
 import com.mariannadreams.service.SiteContentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class DataSeeder implements CommandLineRunner {
     private final SongRepository songRepository;
     private final LyricRepository lyricRepository;
     private final SiteContentService siteContentService;
+    private final ArtistProfileService artistProfileService;
 
     private static final String ALBUM_SPOTIFY = "https://open.spotify.com/album/0BB8BawGzPa6yNdyf9vGBb";
     private static final String GENRE = "Roots · Folk · Country · Indie";
@@ -37,6 +39,7 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         seedSiteContent();
+        seedArtistProfile();
         if (songRepository.count() > 0) {
             log.info("DataSeeder: database already seeded, skipping.");
             return;
@@ -228,6 +231,19 @@ public class DataSeeder implements CommandLineRunner {
         lyric.setDisplayOrder(order);
         lyricRepository.save(lyric);
         return order + 1;
+    }
+
+    /** Seed a default artist profile row if one doesn't exist yet */
+    private void seedArtistProfile() {
+        com.mariannadreams.model.ArtistProfile profile = artistProfileService.getProfile();
+        // getProfile() auto-creates one if missing — just set defaults if websiteUrl is blank
+        if (profile.getWebsiteUrl() == null || profile.getWebsiteUrl().isBlank()) {
+            profile.setName("Marianna Dreams");
+            profile.setWebsiteUrl("");
+            profile.setTagline("Roots · Folk · Country · Indie");
+            profile.setSpotifyUrl("https://open.spotify.com/album/0BB8BawGzPa6yNdyf9vGBb");
+            artistProfileService.updateProfile(profile);
+        }
     }
 
     /** Seed default editable page content (runs every startup, skips existing keys) */
