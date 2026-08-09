@@ -4,8 +4,10 @@ import com.mariannadreams.model.Lyric;
 import com.mariannadreams.model.Lyric.SectionType;
 import com.mariannadreams.model.Song;
 import com.mariannadreams.model.SiteContent;
+import com.mariannadreams.model.News;
 import com.mariannadreams.repository.LyricRepository;
 import com.mariannadreams.repository.SongRepository;
+import com.mariannadreams.repository.NewsRepository;
 import com.mariannadreams.service.ArtistProfileService;
 import com.mariannadreams.service.SiteContentService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ public class DataSeeder implements CommandLineRunner {
     private final LyricRepository lyricRepository;
     private final SiteContentService siteContentService;
     private final ArtistProfileService artistProfileService;
+    private final NewsRepository newsRepository;
 
     private static final String ALBUM_SPOTIFY = "https://open.spotify.com/album/0BB8BawGzPa6yNdyf9vGBb";
     private static final String GENRE = "Roots · Folk · Country · Indie";
@@ -40,6 +43,7 @@ public class DataSeeder implements CommandLineRunner {
     public void run(String... args) {
         seedSiteContent();
         seedArtistProfile();
+        seedNews();
         if (songRepository.count() > 0) {
             log.info("DataSeeder: database already seeded, skipping.");
             return;
@@ -128,6 +132,18 @@ public class DataSeeder implements CommandLineRunner {
                 true);
 
         log.info("DataSeeder: all 13 tracks seeded successfully.");
+    }
+
+    private void seedNews() {
+        if (newsRepository.count() > 0) {
+            return;
+        }
+        News welcomeNews = new News();
+        welcomeNews.setTitle("Welcome to the New Website!");
+        welcomeNews.setContent("We are thrilled to launch the new Marianna Dreams website. Here you'll find all the latest music, lyrics, and updates straight from the studio. Stay tuned for tour dates and new single drops!");
+        welcomeNews.setPublishedDate(java.time.LocalDateTime.now());
+        newsRepository.save(welcomeNews);
+        log.info("DataSeeder: seeded welcome news article.");
     }
 
     // ── Helper: create and save a Song entity ────────────────────────────────
