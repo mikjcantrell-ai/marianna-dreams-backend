@@ -10,5 +10,5 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Long> {
     
     // Custom query method to get news ordered by publish date descending
-    List<News> findAllByOrderByPublishedDateDesc();
+    List<News> findAllByOrderByPublishedDateDescIdDesc();
 }

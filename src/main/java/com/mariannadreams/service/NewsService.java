@@ -16,7 +16,7 @@ public class NewsService {
 
     @Transactional(readOnly = true)
     public List<News> getAllNews() {
-        return newsRepository.findAllByOrderByPublishedDateDesc();
+        return newsRepository.findAllByOrderByPublishedDateDescIdDesc();
     }
 
     @Transactional(readOnly = true)
