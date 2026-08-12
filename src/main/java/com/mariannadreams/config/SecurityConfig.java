@@ -55,6 +55,8 @@ public class SecurityConfig {
                 // Fan-facing POST endpoints are public
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/newsletter/**")).permitAll()
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/contact")).permitAll()
+                // Allow CORS preflight requests
+                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS, "/**")).permitAll()
                 // Everything else (admin writes) requires Basic auth
                 .anyRequest().authenticated()
             )
