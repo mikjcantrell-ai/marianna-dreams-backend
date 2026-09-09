@@ -10,6 +10,8 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 # Volume mount point for the SQLite DB (Railway persistent disk)
 RUN mkdir -p /data
+ENV DB_PATH=/data/marianna.db
+ENV UPLOAD_DIR=/data/uploads
 COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8082
 ENTRYPOINT ["java", "-jar", "app.jar"]
