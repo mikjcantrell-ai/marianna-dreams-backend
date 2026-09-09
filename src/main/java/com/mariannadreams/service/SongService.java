@@ -32,6 +32,9 @@ public class SongService {
     }
 
     public Song createSong(Song song) {
+        if (song.getAlbum() != null && song.getAlbum().getId() == null) {
+            song.setAlbum(null);
+        }
         return songRepository.save(song);
     }
 
@@ -47,6 +50,13 @@ public class SongService {
             existing.setFeaturedStatus(updated.isFeaturedStatus());
             existing.setDisplayOrder(updated.getDisplayOrder());
             existing.setDescription(updated.getDescription());
+            
+            if (updated.getAlbum() != null && updated.getAlbum().getId() != null) {
+                existing.setAlbum(updated.getAlbum());
+            } else {
+                existing.setAlbum(null);
+            }
+
             return songRepository.save(existing);
         });
     }
