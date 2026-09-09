@@ -24,6 +24,17 @@ public class AlbumService {
                 .orElseThrow(() -> new RuntimeException("Album not found: " + id));
     }
 
+    public Album updateAlbum(Long id, Album updated) {
+        Album existing = getAlbumById(id);
+        existing.setTitle(updated.getTitle());
+        existing.setReleaseYear(updated.getReleaseYear());
+        existing.setImageUrl(updated.getImageUrl());
+        existing.setSpotifyUrl(updated.getSpotifyUrl());
+        existing.setDescription(updated.getDescription());
+        existing.setDisplayOrder(updated.getDisplayOrder());
+        return albumRepository.save(existing);
+    }
+
     public Album saveAlbum(Album album) {
         return albumRepository.save(album);
     }
