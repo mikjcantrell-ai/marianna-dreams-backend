@@ -11,4 +11,7 @@ public interface NewsRepository extends JpaRepository<News, Long> {
     
     // Custom query method to get news ordered by publish date descending
     List<News> findAllByOrderByPublishedDateDescIdDesc();
+
+    // Query to get only news that are published
+    List<News> findAllByPublishedDateLessThanEqualOrderByPublishedDateDescIdDesc(java.time.LocalDateTime date);
 }

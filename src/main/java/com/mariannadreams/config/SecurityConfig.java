@@ -50,7 +50,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> {}) // delegated to CorsConfig
             .authorizeHttpRequests(auth -> auth
-                // All GET requests are public (covers /api/songs/1/lyrics etc.)
+                // Admin GET requests
+                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/news/admin")).authenticated()
+                // All other GET requests are public (covers /api/songs/1/lyrics etc.)
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/**")).permitAll()
                 // Fan-facing POST endpoints are public
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/newsletter/**")).permitAll()

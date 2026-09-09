@@ -15,6 +15,11 @@ public class NewsService {
     private final NewsRepository newsRepository;
 
     @Transactional(readOnly = true)
+    public List<News> getPublishedNews() {
+        return newsRepository.findAllByPublishedDateLessThanEqualOrderByPublishedDateDescIdDesc(java.time.LocalDateTime.now());
+    }
+
+    @Transactional(readOnly = true)
     public List<News> getAllNews() {
         return newsRepository.findAllByOrderByPublishedDateDescIdDesc();
     }

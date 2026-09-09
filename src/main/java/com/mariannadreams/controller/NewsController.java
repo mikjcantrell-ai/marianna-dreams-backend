@@ -16,9 +16,15 @@ public class NewsController {
 
     private final NewsService newsService;
 
-    // Public endpoint: Get all news articles
+    // Public endpoint: Get published news articles
     @GetMapping
-    public ResponseEntity<List<News>> getAllNews() {
+    public ResponseEntity<List<News>> getPublishedNews() {
+        return ResponseEntity.ok(newsService.getPublishedNews());
+    }
+
+    // Protected endpoint: Get all news articles (including scheduled)
+    @GetMapping("/admin")
+    public ResponseEntity<List<News>> getAllNewsAdmin() {
         return ResponseEntity.ok(newsService.getAllNews());
     }
 

@@ -7,6 +7,7 @@ import com.mariannadreams.model.SiteContent;
 import com.mariannadreams.model.News;
 import com.mariannadreams.repository.LyricRepository;
 import com.mariannadreams.repository.SongRepository;
+import com.mariannadreams.repository.AlbumRepository;
 import com.mariannadreams.repository.NewsRepository;
 import com.mariannadreams.service.ArtistProfileService;
 import com.mariannadreams.service.SiteContentService;
@@ -34,6 +35,7 @@ public class DataSeeder implements CommandLineRunner {
     private final SiteContentService siteContentService;
     private final ArtistProfileService artistProfileService;
     private final NewsRepository newsRepository;
+    private final AlbumRepository albumRepository;
 
     private static final String ALBUM_SPOTIFY = "https://open.spotify.com/album/0BB8BawGzPa6yNdyf9vGBb";
     private static final String GENRE = "Roots · Folk · Country · Indie";
@@ -50,32 +52,39 @@ public class DataSeeder implements CommandLineRunner {
         }
         log.info("DataSeeder: seeding Marianna Dreams debut album (13 tracks)...");
 
-        seedTrack(1,  "Roots and Wings",
+        com.mariannadreams.model.Album debutAlbum = new com.mariannadreams.model.Album();
+        debutAlbum.setTitle("Marianna Dreams");
+        debutAlbum.setReleaseYear(YEAR);
+        debutAlbum.setSpotifyUrl(ALBUM_SPOTIFY);
+        debutAlbum.setDisplayOrder(1);
+        debutAlbum = albumRepository.save(debutAlbum);
+
+        seedTrack(debutAlbum, 1,  "Roots and Wings",
                 "https://open.spotify.com/track/2Vge8kJ7fKVsgjtu3PHpVj",
                 "https://open.spotify.com/embed/track/2Vge8kJ7fKVsgjtu3PHpVj?utm_source=oembed",
                 "Where you come from and where you're going — sometimes the roots are the wings.",
                 true);
 
-        seedTrack(2,  "Leaving Marianna",
+        seedTrack(debutAlbum, 2,  "Leaving Marianna",
                 "https://open.spotify.com/track/6iuGWZytfTqKAVKVBlzfIj",
                 "https://open.spotify.com/embed/track/6iuGWZytfTqKAVKVBlzfIj?utm_source=oembed",
                 "A bittersweet farewell to a small town that never quite lets you go.",
                 true);
 
-        seedTrack(3,  "Down the Juke Joint Line",
+        seedTrack(debutAlbum, 3,  "Down the Juke Joint Line",
                 "https://open.spotify.com/track/3GySTzf94pzmV1S5ebaGNP",
                 "https://open.spotify.com/embed/track/3GySTzf94pzmV1S5ebaGNP?utm_source=oembed",
                 "Neon signs, sawdust floors, and a fiddle that makes the whole room move.",
                 true);
 
-        seedTrack(4,  "Wildflower Mile",
+        seedTrack(debutAlbum, 4,  "Wildflower Mile",
                 "https://open.spotify.com/track/2iSKFVmFjV51Rqpmm4oW8f",
                 "https://open.spotify.com/embed/track/2iSKFVmFjV51Rqpmm4oW8f?utm_source=oembed",
                 "That stretch of road where the Queen Anne's lace and black-eyed Susans own the shoulders.",
                 true);
 
         // Track 5 — the flagship single with full lyrics
-        Song honeysuckle = seedTrack(5, "Honeysuckle Summer Breeze",
+        Song honeysuckle = seedTrack(debutAlbum, 5, "Honeysuckle Summer Breeze",
                 "https://open.spotify.com/track/4LvdAmtQev8e3n9pSkXvlu",
                 "https://open.spotify.com/embed/track/4LvdAmtQev8e3n9pSkXvlu?utm_source=oembed",
                 "Windows down on a backroad county line, air thick as molasses in the Carolina pines.",
@@ -83,49 +92,49 @@ public class DataSeeder implements CommandLineRunner {
         seedHoneysuckleLyrics(honeysuckle);
 
         // Track 6
-        seedTrack(6,  "I Wanna be Present (with you)",
+        seedTrack(debutAlbum, 6,  "I Wanna be Present (with you)",
                 "https://open.spotify.com/track/5W1zfkbegTDp94AhHof42m",
                 "https://open.spotify.com/embed/track/5W1zfkbegTDp94AhHof42m?utm_source=oembed",
                 "A love song for the age of distraction — put the phone down and just be here.",
                 true);
 
-        seedTrack(7,  "Friday Night Forever",
+        seedTrack(debutAlbum, 7,  "Friday Night Forever",
                 "https://open.spotify.com/track/0szYhZb5JknADWf0SDPIu4",
                 "https://open.spotify.com/embed/track/0szYhZb5JknADWf0SDPIu4?utm_source=oembed",
                 "Stadium lights, gravel lots, and the kind of night you swear you'll never forget.",
                 true);
 
-        seedTrack(8,  "Small Town Saints",
+        seedTrack(debutAlbum, 8,  "Small Town Saints",
                 "https://open.spotify.com/track/3oVIwsE0s9IJtyM3keTLf2",
                 "https://open.spotify.com/embed/track/3oVIwsE0s9IJtyM3keTLf2?utm_source=oembed",
                 "The quietly heroic lives lived in small towns that most people drive right through.",
                 true);
 
-        seedTrack(9,  "Faded Blue Jeans",
+        seedTrack(debutAlbum, 9,  "Faded Blue Jeans",
                 "https://open.spotify.com/track/4hGULOdTSTBXacx9gHdEB2",
                 "https://open.spotify.com/embed/track/4hGULOdTSTBXacx9gHdEB2?utm_source=oembed",
                 "Worn soft by a hundred summer days — some things only get better with time.",
                 true);
 
-        seedTrack(10, "Enough",
+        seedTrack(debutAlbum, 10, "Enough",
                 "https://open.spotify.com/track/5H6jc2yr58p1AJGv2RyFlt",
                 "https://open.spotify.com/embed/track/5H6jc2yr58p1AJGv2RyFlt?utm_source=oembed",
                 "A quiet anthem for anyone who's ever wondered if they measure up.",
                 true);
 
-        seedTrack(11, "Ghosts in the Rearview",
+        seedTrack(debutAlbum, 11, "Ghosts in the Rearview",
                 "https://open.spotify.com/track/0DpgXDUfG0Cvr5cqesYcPC",
                 "https://open.spotify.com/embed/track/0DpgXDUfG0Cvr5cqesYcPC?utm_source=oembed",
                 "The past keeps pace with you no matter how fast you drive.",
                 true);
 
-        seedTrack(12, "Where the River Bends",
+        seedTrack(debutAlbum, 12, "Where the River Bends",
                 "https://open.spotify.com/track/5tNhHoY4pzhi4amInYAwJ0",
                 "https://open.spotify.com/embed/track/5tNhHoY4pzhi4amInYAwJ0?utm_source=oembed",
                 "At the curve in the river where the herons stand still and time seems to agree with them.",
                 true);
 
-        seedTrack(13, "Porch Light Left On",
+        seedTrack(debutAlbum, 13, "Porch Light Left On",
                 "https://open.spotify.com/track/7gzjoNgZtPcBunZsY44AjX",
                 "https://open.spotify.com/embed/track/7gzjoNgZtPcBunZsY44AjX?utm_source=oembed",
                 "Home is the porch light that stays on no matter how long you've been gone.",
@@ -147,9 +156,10 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     // ── Helper: create and save a Song entity ────────────────────────────────
-    private Song seedTrack(int trackNum, String title, String spotifyUrl, String embedUrl,
+    private Song seedTrack(com.mariannadreams.model.Album album, int trackNum, String title, String spotifyUrl, String embedUrl,
                            String description, boolean featured) {
         Song song = new Song();
+        song.setAlbum(album);
         song.setTitle(title);
         song.setSpotifyUrl(spotifyUrl);
         song.setEmbedUrl(embedUrl);

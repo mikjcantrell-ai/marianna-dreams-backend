@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * JPA entity representing a Marianna Dreams song / track.
@@ -76,4 +77,10 @@ public class Song {
     /** Short teaser / tagline shown on the track card. */
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    /** The album this song belongs to. */
+    @ManyToOne
+    @JoinColumn(name = "album_id")
+    @JsonIgnoreProperties("songs")
+    private Album album;
 }
