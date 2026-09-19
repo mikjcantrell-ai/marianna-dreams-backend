@@ -63,4 +63,13 @@ public class LyricController {
         lyricService.reorder(orderMap);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * POST /api/lyrics/bulk-import — admin: bulk import lyrics for multiple songs.
+     */
+    @PostMapping("/api/lyrics/bulk-import")
+    public ResponseEntity<Void> bulkImport(@RequestBody List<com.mariannadreams.model.BulkImportRequest> requests) {
+        lyricService.bulkImport(requests);
+        return ResponseEntity.ok().build();
+    }
 }

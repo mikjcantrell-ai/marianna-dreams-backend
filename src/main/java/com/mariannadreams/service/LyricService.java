@@ -73,4 +73,26 @@ public class LyricService {
     // Legacy helpers kept for DataSeeder compatibility
     public Lyric saveLyric(Lyric lyric) { return lyricRepository.save(lyric); }
     public void deleteLyricsBySong(Long songId) { lyricRepository.deleteBySongId(songId); }
+
+    /** Bulk import lyrics for multiple songs. Wipes existing lyrics for each specified song. */
+    @Transactional
+    public void bulkImport(List<com.mariannadreams.model.BulkImportRequest> requests) {
+        for (com.mariannadreams.model.BulkImportRequest request : requests) {
+            Long songId = request.getSongId();
+            Song song = songRepository.findById(songId)
+                    .orElseThrow(() -> new EntityNotFoundException("Song not found: " + songId));
+            
+            // Delete old lyrics
+            lyricRepository.deleteBySongId(songId);
+            
+            // Save new lyrics
+            if (request.getBlocks() != null) {
+                for (Lyric lyric : request.getBlocks()) {
+                    lyric.setId(null); // Ensure it's treated as new
+                    lyric.setSong(song);
+                }
+                lyricRepository.saveAll(request.getBlocks());
+            }
+        }
+    }
 }
